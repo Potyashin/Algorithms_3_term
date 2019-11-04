@@ -10,7 +10,7 @@ int find_pref_func_value(
         const std::vector<int>& prefix_array,
         int prev_value, char symbol) {
     if (prev_value == 0)
-        return symbol == pattern[0] ? 1 : 0;
+        return symbol == pattern[0];
 
     else
         return symbol == pattern[prev_value] ?
