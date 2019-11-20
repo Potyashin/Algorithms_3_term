@@ -16,7 +16,7 @@ public:
     void add_string(const std::string& str);
     void fill_in(const std::vector<std::string>& patterns);
     void make_links();
-    std::array<int, size_of_alphabet> next_vertices(size_t index) const;
+    std::array<size_t, size_of_alphabet> next_vertices(size_t index) const;
     size_t suffix_link(size_t index) const;
     size_t compressed_link(size_t index) const;
     std::vector<size_t> ending_patterns(size_t index) const;
@@ -34,13 +34,13 @@ private:
 
 struct Trie::Node {
     Node();
-    std::array<int, size_of_alphabet> edges;
+    std::array<size_t, size_of_alphabet> edges;
     std::vector<size_t> patterns;
     bool is_leaf = false;
     unsigned char parent_ch = 0;
     size_t parent = 0;
     size_t link = 0;
-    int compressed_link = -1;
+    ssize_t compressed_link = -1;
 };
 
 Trie::Node::Node() {
@@ -155,7 +155,7 @@ void Trie::make_compressed_links() {
     }
 }
 
-std::array<int, size_of_alphabet> Trie::next_vertices(size_t index) const {
+std::array<size_t, size_of_alphabet> Trie::next_vertices(size_t index) const {
     return trie[index].edges;
 }
 
@@ -189,7 +189,9 @@ std::vector<int> separate_patterns(const std::string& pattern, std::vector<std::
             ends_of_intervals.push_back(i - 1);
             patterns.push_back(current_str);
             current_str = std::string();
-            for (; pattern[i] == '?' && i < pattern.length(); ++i);
+            while (pattern[i] == '?' && i < pattern.length()) {
+                ++i;
+            }
             --i;
         }
         else {
