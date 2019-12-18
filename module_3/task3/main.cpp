@@ -53,22 +53,26 @@ int top_rigth_point_index(const Polygon& polygon) {
     return result;
 }
 
+double vector_product(vector v1, vector v2) {
+    double x1 = v1.second.x - v1.first.x;
+    double y1 = v1.second.y - v1.first.y;
+    double x2 = v2.second.x - v2.first.x;
+    double y2 = v2.second.y - v2.first.y;
+
+    return x1*y2 - x2*y1;
+}
+
+//double dot_product(vector v1, vector v2) {
+//    double x1 = v1.second.x - v1.first.x;
+//    double y1 = v1.second.y - v1.first.y;
+//    double x2 = v2.second.x - v2.first.x;
+//    double y2 = v2.second.y - v2.first.y;
+//
+//    return x1*y1 + x2*y2;
+//}
+
 bool is_angle_greater(vector v1, vector v2) {
-    Point vec1_pnt = v1.second - v1.first;
-    Point vec2_pnt = v2.second - v2.first;
-
-    bool result;
-
-    std::complex<double> p1(vec1_pnt.x, vec1_pnt.y);
-    std::complex<double> p2(vec2_pnt.x, vec2_pnt.y);
-    double ang1 = std::arg(p1);
-    double ang2 = std::arg(p2);
-    ang1 < 0 ? ang1 += 2*M_PI : ang1;
-    ang2 < 0 ? ang2 += 2*M_PI : ang2;
-
-    result = ang1 > ang2;
-
-    return result;
+    return vector_product(v1, v2) > 0;
 }
 
 
